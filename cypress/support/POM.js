@@ -32,7 +32,7 @@ class FormularioPage {
    * @param {string} phone - Teléfono
    * @param {string} fecha - Fecha (no usada, por ahora fija)
    */
-  llenarFormulario(email, name, country, state, direccion, phone, fecha) {
+  llenarFormulario(email, name, country, state, direccion, phone) {
     this.get.EmailField().type(email).wait(tiempo);
     this.get.NameField().type(name).wait(tiempo);
     this.get.CountryField().clear().type(`${country}{enter}`).wait(tiempo);
@@ -44,8 +44,11 @@ class FormularioPage {
     }
 
     // Escribir dirección y seleccionar primera sugerencia
-    this.get.AddressField().type(direccion, { delay: 100 }).wait(tiempo);
-    this.get.AddressSuggestion().click({ force: true }).wait(tiempo);
+    this.get.AddressField()
+    .clear()
+    .type(`${direccion}{downarrow}{enter}`, { delay: 250 }) // esto sí selecciona la dirección
+    .wait(tiempo);
+  
 
     // Código (selección aleatoria)
     this.get.CodeField().click().wait(tiempo);
@@ -60,18 +63,24 @@ class FormularioPage {
 
     // Selección de fecha fija mediante clicks en calendario
     this.get.DateField().click().wait(tiempo).then(() => {
-      cy.get('.mdc-button__label > span').click();
-      cy.get('#mat-datepicker-0 > div > mat-multi-year-view > table > tbody > tr:nth-child(6) > td:nth-child(4) > button').click();
-      cy.get('#mat-datepicker-0 > div > mat-year-view > table > tbody > tr:nth-child(3) > td:nth-child(3) > button > span.mat-calendar-body-cell-content.mat-focus-indicator').click();
-      cy.get('#mat-datepicker-0 > div > mat-month-view > table > tbody > tr:nth-child(2) > td:nth-child(2) > button > span.mat-calendar-body-cell-content.mat-focus-indicator').click();
+      cy.get('.mdc-button__label > span').click().wait(tiempo);
+      cy.get('#mat-datepicker-0 > div > mat-multi-year-view > table > tbody > tr:nth-child(6) > td:nth-child(4) > button').click().wait(tiempo);
+      cy.get('#mat-datepicker-0 > div > mat-year-view > table > tbody > tr:nth-child(3) > td:nth-child(3) > button > span.mat-calendar-body-cell-content.mat-focus-indicator').click().wait(tiempo);
+      cy.get('#mat-datepicker-0 > div > mat-month-view > table > tbody > tr:nth-child(2) > td:nth-child(2) > button > span.mat-calendar-body-cell-content.mat-focus-indicator').click().wait(tiempo);
     });
 
     // Captcha - solo clic forzado para evitar problemas
     this.get.Captcha().click({ force: true }).wait(tiempo);
 
-    // Botón para avanzar o enviar formulario
-    this.get.NextButton().click();
+
   }
+
+  ClickNextButton(){
+        // Botón para avanzar o enviar formulario
+        this.get.NextButton().click().wait(tiempo);
+
+  }
+
 }
 
 export const Formulario = new FormularioPage();
