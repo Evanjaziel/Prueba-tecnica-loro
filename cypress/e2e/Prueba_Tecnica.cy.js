@@ -6,6 +6,12 @@ const tiempo = 1000; // Tiempo de espera entre acciones para estabilizar pruebas
 
 describe('Prueba técnica Loro QA Automation', () => {
 
+
+  before(() => {
+    cy.log('🚀 Iniciando pruebas automatizadas del formulario de seguros').wait(tiempo);
+  });
+
+
   beforeEach(() => {
     cy.viewport(1440, 1000);
     Formulario.visitPage();
@@ -101,6 +107,10 @@ describe('Prueba técnica Loro QA Automation', () => {
         cy.screenshot('error-url');
       }
     });
+  });
+
+  after(() => {
+    cy.log('✅ Pruebas finalizadas correctamente').wait(tiempo);
   });
   
 
