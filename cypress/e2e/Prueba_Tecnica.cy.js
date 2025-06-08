@@ -6,7 +6,7 @@ const tiempo = 1000; // Tiempo de espera entre acciones para estabilizar pruebas
 
 describe('Prueba técnica Loro QA Automation', () => {
 
-  //se ejecitara al princpio de iniciar las pruebas , indiacion de que se Iniciaran los Tests
+  //se ejecitara al princpio de las pruebas , indicando que se Iniciaran los Tests
   before(() => {
     cy.log('🚀 Iniciando pruebas automatizadas del formulario de seguros').wait(tiempo);
   });
