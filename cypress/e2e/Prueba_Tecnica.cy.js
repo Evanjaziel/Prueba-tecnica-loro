@@ -6,12 +6,12 @@ const tiempo = 1000; // Tiempo de espera entre acciones para estabilizar pruebas
 
 describe('Prueba técnica Loro QA Automation', () => {
 
-
+  //se ejecitara al princpio de iniciar las pruebas , indiacion de que se Iniciaran los Tests
   before(() => {
     cy.log('🚀 Iniciando pruebas automatizadas del formulario de seguros').wait(tiempo);
   });
 
-
+  //codigo que se ejecutara antes de cada Test
   beforeEach(() => {
     cy.viewport(1440, 1000);
     Formulario.visitPage();
@@ -76,7 +76,7 @@ describe('Prueba técnica Loro QA Automation', () => {
     });
   });
   
-  
+  //Codigo que Se ejecutara despues de cada Test
   afterEach(() => {
     // Validar que la dirección autocompletada contenga "Mission Bay Dr."
     cy.get('#address-autocomplete-input')
@@ -98,17 +98,19 @@ describe('Prueba técnica Loro QA Automation', () => {
     // Esperar que cargue la nueva URL (puedes ajustar el tiempo si hace falta)
     cy.url({ timeout: 5000 }).then((url) => {
       const urlEsperada = 'https://pulpo.loroqa.com/products/34/insurance/quote?found=true&unavailable=false';
-      
-      if (url.includes('/insurance/quote') && url.includes('found=true') && url.includes('unavailable=false')) {
+    //Validacion para ver que se halla accedido a la pagina siguiente
+      if (url === urlEsperada) {
         cy.log('🎉 ¡Formulario completado con éxito! Llegaste a la página esperada ✅');
       } else {
         cy.log('❌ No se llegó a la página esperada, Captcha no logra validarse favor de reportarlo');
         cy.log(`🔍 URL actual: ${url}`);
+        cy.log(`🔍 URL esperada: ${urlEsperada}`);
         cy.screenshot('error-url');
       }
     });
+    
   });
-
+  //Se ejecutara despues de todos los test, Indicando la finalizacion de todas las pruebas
   after(() => {
     cy.log('✅ Pruebas finalizadas correctamente').wait(tiempo);
   });
